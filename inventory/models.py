@@ -32,3 +32,20 @@ class StockMovement(models.Model):
 
     def __str__(self):
         return f"{self.movement_type} {self.quantity} for {self.stock_item.product.sku}"
+    
+    def save(self, *args, **kwargs):
+        creating = self.pk is None
+
+        super().save(*args, **kwargs)
+
+        if creating:
+            stock = self.stock_item
+
+            if self.movement_type == self.IN:
+                stock.quantity_on_hand += self.quantity
+            elif self.movement_type == self.OUT:
+                stock.quantity_on_hand = max(0, stock.quantity_on_hand - self.quantity)
+            else:  # ADJUST
+                stock.quantity_on_hand = self.quantity
+
+            stock.save()
