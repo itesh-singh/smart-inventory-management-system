@@ -2,6 +2,7 @@ from django.db import models
 from suppliers.models import Supplier
 from products.models import Product
 from inventory.models import StockItem, StockMovement
+from django.core.exceptions import ValidationError
 
 class PurchaseOrder(models.Model):
 
@@ -34,15 +35,22 @@ class PurchaseOrder(models.Model):
     def __str__(self):
         return f"PO-{self.id} - {self.supplier.name}"
     
+    def clean(self):
+        if self.pk:
+            previous_status = PurchaseOrder.objects.get(pk=self.pk).status
+            if previous_status == self.RECEIVED and self.status != self.RECEIVED:
+                raise ValidationError({"status": "Received purchase orders cannot be modified."})   
+    
     def save(self, *args, **kwargs):
         previous_status = None
 
         if self.pk:
             previous_status = PurchaseOrder.objects.get(pk=self.pk).status
 
+        # block changes if already received
+        self.full_clean()
         super().save(*args, **kwargs)
 
-        # run only once when status becomes RECEIVED
         if previous_status != self.RECEIVED and self.status == self.RECEIVED:
             for item in self.items.all():
                 stock_item, _ = StockItem.objects.get_or_create(
