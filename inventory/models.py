@@ -75,3 +75,10 @@ class StockMovement(models.Model):
                 is_resolved=False,
                 defaults={"message": f"{stock.product.name} is low on stock."},
             )
+            
+        # resolve alerts if stock is healthy again
+        if stock.quantity_on_hand > stock.reorder_level:
+            Alert.objects.filter(
+                product=stock.product,
+                is_resolved=False
+            ).update(is_resolved=True)
