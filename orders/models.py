@@ -1,6 +1,7 @@
 from django.db import models
 from suppliers.models import Supplier
 from products.models import Product
+from inventory.models import StockItem, StockMovement
 
 class PurchaseOrder(models.Model):
 
@@ -32,6 +33,29 @@ class PurchaseOrder(models.Model):
 
     def __str__(self):
         return f"PO-{self.id} - {self.supplier.name}"
+    
+    def save(self, *args, **kwargs):
+        previous_status = None
+
+        if self.pk:
+            previous_status = PurchaseOrder.objects.get(pk=self.pk).status
+
+        super().save(*args, **kwargs)
+
+        # run only once when status becomes RECEIVED
+        if previous_status != self.RECEIVED and self.status == self.RECEIVED:
+            for item in self.items.all():
+                stock_item, _ = StockItem.objects.get_or_create(
+                    product=item.product,
+                    defaults={"quantity_on_hand": 0, "reorder_level": 0, "reorder_qty": 0},
+                )
+
+                StockMovement.objects.create(
+                    stock_item=stock_item,
+                    movement_type=StockMovement.IN,
+                    quantity=item.quantity,
+                    reference=f"PO-{self.id} received",
+                )
     
 class PurchaseOrderItem(models.Model):
     purchase_order = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE, related_name="items")
