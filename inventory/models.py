@@ -1,5 +1,6 @@
 from django.db import models
 from products.models import Product
+from django.core.exceptions import ValidationError
 
 
 class StockItem(models.Model):
@@ -33,8 +34,16 @@ class StockMovement(models.Model):
     def __str__(self):
         return f"{self.movement_type} {self.quantity} for {self.stock_item.product.sku}"
     
+    def clean(self):
+        if self.pk is None and self.movement_type == self.OUT:
+            stock = self.stock_item
+            if self.quantity > stock.quantity_on_hand:
+                raise ValidationError({"quantity": "Insufficient stock for OUT movement."})
+
     def save(self, *args, **kwargs):
         creating = self.pk is None
+
+        self.full_clean()  # makes admin show form error nicely
 
         super().save(*args, **kwargs)
 
@@ -44,7 +53,7 @@ class StockMovement(models.Model):
             if self.movement_type == self.IN:
                 stock.quantity_on_hand += self.quantity
             elif self.movement_type == self.OUT:
-                stock.quantity_on_hand = max(0, stock.quantity_on_hand - self.quantity)
+                stock.quantity_on_hand -= self.quantity
             else:  # ADJUST
                 stock.quantity_on_hand = self.quantity
 
