@@ -44,7 +44,7 @@ class StockMovement(models.Model):
     def save(self, *args, **kwargs):
         creating = self.pk is None
 
-        self.full_clean()  # makes admin show form error nicely
+        self.full_clean()
 
         super().save(*args, **kwargs)
 
@@ -60,25 +60,25 @@ class StockMovement(models.Model):
 
             stock.save()
 
-        # create alerts based on new stock level
-        if stock.quantity_on_hand == 0:
-            Alert.objects.get_or_create(
-                alert_type=Alert.OUT_OF_STOCK,
-                product=stock.product,
-                is_resolved=False,
-                defaults={"message": f"{stock.product.name} is out of stock."},
-            )
-        elif stock.quantity_on_hand <= stock.reorder_level:
-            Alert.objects.get_or_create(
-                alert_type=Alert.LOW_STOCK,
-                product=stock.product,
-                is_resolved=False,
-                defaults={"message": f"{stock.product.name} is low on stock."},
-            )
-            
-        # resolve alerts if stock is healthy again
-        if stock.quantity_on_hand > stock.reorder_level:
-            Alert.objects.filter(
-                product=stock.product,
-                is_resolved=False
-            ).update(is_resolved=True)
+            # Alert logic
+            if stock.quantity_on_hand == 0:
+                Alert.objects.get_or_create(
+                    alert_type=Alert.OUT_OF_STOCK,
+                    product=stock.product,
+                    is_resolved=False,
+                    defaults={"message": f"{stock.product.name} is out of stock."},
+                )
+
+            elif stock.quantity_on_hand <= stock.reorder_level:
+                Alert.objects.get_or_create(
+                    alert_type=Alert.LOW_STOCK,
+                    product=stock.product,
+                    is_resolved=False,
+                    defaults={"message": f"{stock.product.name} is running low."},
+                )
+
+            else:
+                Alert.objects.filter(
+                    product=stock.product,
+                    is_resolved=False
+                ).update(is_resolved=True)
