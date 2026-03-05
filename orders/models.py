@@ -73,3 +73,11 @@ class PurchaseOrderItem(models.Model):
 
     def __str__(self):
         return f"PO-{self.purchase_order.id} - {self.product.sku} x {self.quantity}"
+    
+    def clean(self):
+        if self.purchase_order.status == PurchaseOrder.RECEIVED:
+            raise ValidationError("Cannot modify items of a received purchase order.")
+        
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
