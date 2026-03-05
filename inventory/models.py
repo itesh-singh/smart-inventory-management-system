@@ -1,6 +1,7 @@
 from django.db import models
 from products.models import Product
 from django.core.exceptions import ValidationError
+from alerts.models import Alert
 
 
 class StockItem(models.Model):
@@ -58,3 +59,19 @@ class StockMovement(models.Model):
                 stock.quantity_on_hand = self.quantity
 
             stock.save()
+
+        # create alerts based on new stock level
+        if stock.quantity_on_hand == 0:
+            Alert.objects.get_or_create(
+                alert_type=Alert.OUT_OF_STOCK,
+                product=stock.product,
+                is_resolved=False,
+                defaults={"message": f"{stock.product.name} is out of stock."},
+            )
+        elif stock.quantity_on_hand <= stock.reorder_level:
+            Alert.objects.get_or_create(
+                alert_type=Alert.LOW_STOCK,
+                product=stock.product,
+                is_resolved=False,
+                defaults={"message": f"{stock.product.name} is low on stock."},
+            )
