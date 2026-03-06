@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from inventory.models import StockItem
 from suppliers.models import SupplierProduct
 from django.db import models
+from rest_framework import generics
+from .models import Sale
 
 
 class ReorderSuggestionView(APIView):
@@ -32,3 +34,18 @@ class ReorderSuggestionView(APIView):
             })
 
         return Response(suggestions)
+    
+class SaleListView(generics.ListAPIView):
+    queryset = Sale.objects.all().order_by("-id")
+
+    def list(self, request, *args, **kwargs):
+        data = []
+
+        for sale in self.get_queryset():
+            data.append({
+                "id": sale.id,
+                "customer_name": sale.customer_name,
+                "sale_date": sale.sale_date,
+            })
+
+        return Response(data)
