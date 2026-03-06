@@ -8,7 +8,8 @@ from rest_framework import generics
 from .models import Sale, Product, SaleItem
 from rest_framework import status
 from django.db import transaction
-from .serializers import SaleSerializer
+from .serializers import SaleSerializer, CreateSaleSerializer
+
 
 
 class ReorderSuggestionView(APIView):
@@ -57,14 +58,15 @@ class SaleListView(generics.ListAPIView):
 class CreateSaleView(APIView):
 
     def post(self, request):
-        customer_name = request.data.get("customer_name")
-        items = request.data.get("items", [])
 
-        if not customer_name or not items:
-            return Response(
-                {"error": "customer_name and items are required"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        serializer = CreateSaleSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=400)
+
+        data = serializer.validated_data
+        customer_name = data["customer_name"]
+        items = data["items"]
 
         with transaction.atomic():
             sale = Sale.objects.create(customer_name=customer_name)
@@ -81,5 +83,5 @@ class CreateSaleView(APIView):
 
         return Response(
             {"message": "Sale created successfully", "sale_id": sale.id},
-            status=status.HTTP_201_CREATED
+            status=201
         )
