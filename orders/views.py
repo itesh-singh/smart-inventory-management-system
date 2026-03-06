@@ -5,7 +5,9 @@ from inventory.models import StockItem
 from suppliers.models import SupplierProduct
 from django.db import models
 from rest_framework import generics
-from .models import Sale
+from .models import Sale, Product, SaleItem
+from rest_framework import status
+from django.db import transaction
 
 
 class ReorderSuggestionView(APIView):
@@ -49,3 +51,33 @@ class SaleListView(generics.ListAPIView):
             })
 
         return Response(data)
+    
+class CreateSaleView(APIView):
+
+    def post(self, request):
+        customer_name = request.data.get("customer_name")
+        items = request.data.get("items", [])
+
+        if not customer_name or not items:
+            return Response(
+                {"error": "customer_name and items are required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        with transaction.atomic():
+            sale = Sale.objects.create(customer_name=customer_name)
+
+            for item in items:
+                product = Product.objects.get(id=item["product_id"])
+
+                SaleItem.objects.create(
+                    sale=sale,
+                    product=product,
+                    quantity=item["quantity"],
+                    unit_price=item["unit_price"]
+                )
+
+        return Response(
+            {"message": "Sale created successfully", "sale_id": sale.id},
+            status=status.HTTP_201_CREATED
+        )
