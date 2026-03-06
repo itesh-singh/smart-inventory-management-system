@@ -43,6 +43,10 @@ class SaleListView(generics.ListAPIView):
     queryset = Sale.objects.all().order_by("-id")
     serializer_class = SaleSerializer
 
+class SaleDetailView(generics.RetrieveAPIView):
+    queryset = Sale.objects.all()
+    serializer_class = SaleSerializer
+
     
 class CreateSaleView(APIView):
 
