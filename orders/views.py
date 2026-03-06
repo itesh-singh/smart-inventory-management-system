@@ -8,6 +8,7 @@ from rest_framework import generics
 from .models import Sale, Product, SaleItem
 from rest_framework import status
 from django.db import transaction
+from .serializers import SaleSerializer
 
 
 class ReorderSuggestionView(APIView):
@@ -39,6 +40,7 @@ class ReorderSuggestionView(APIView):
     
 class SaleListView(generics.ListAPIView):
     queryset = Sale.objects.all().order_by("-id")
+    serializer_class = SaleSerializer
 
     def list(self, request, *args, **kwargs):
         data = []
