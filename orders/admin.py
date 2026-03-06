@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import PurchaseOrder, PurchaseOrderItem
+from .models import PurchaseOrder, PurchaseOrderItem, Sale, SaleItem
 from inventory.models import StockItem, StockMovement
+
 
 
 class PurchaseOrderItemInline(admin.TabularInline):
     model = PurchaseOrderItem
     extra = 1
-
 
 @admin.register(PurchaseOrder)
 class PurchaseOrderAdmin(admin.ModelAdmin):
@@ -34,7 +34,19 @@ class PurchaseOrderAdmin(admin.ModelAdmin):
                     reference=f"PO-{self.id} received",
                 )
 
-
 @admin.register(PurchaseOrderItem)
 class PurchaseOrderItemAdmin(admin.ModelAdmin):
     list_display = ("purchase_order", "product", "quantity", "unit_price")
+
+class SaleItemInline(admin.TabularInline):
+    model = SaleItem
+    extra = 1
+
+@admin.register(Sale)
+class SaleAdmin(admin.ModelAdmin):
+    inlines = [SaleItemInline]
+    list_display = ("id", "customer_name", "sale_date")
+
+@admin.register(SaleItem)
+class SaleItemAdmin(admin.ModelAdmin):
+    list_display = ("sale", "product", "quantity", "unit_price")

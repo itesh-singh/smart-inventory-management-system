@@ -65,6 +65,7 @@ class PurchaseOrder(models.Model):
                     reference=f"PO-{self.id} received",
                 )
     
+
 class PurchaseOrderItem(models.Model):
     purchase_order = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE, related_name="items")
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -81,3 +82,43 @@ class PurchaseOrderItem(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
+
+class Sale(models.Model):
+    customer_name = models.CharField(max_length=255)
+    sale_date = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Sale-{self.id} - {self.customer_name}"
+    
+
+class SaleItem(models.Model):
+    sale = models.ForeignKey(Sale, on_delete=models.CASCADE, related_name="items")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"Sale-{self.sale.id} - {self.product.sku} x {self.quantity}"
+    
+    def clean(self):
+        stock_item = self.product.stock
+        if self.quantity > stock_item.quantity_on_hand:
+            raise ValidationError({"quantity": "Not enough stock available for this sale."})
+
+    def save(self, *args, **kwargs):
+        creating = self.pk is None
+
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+        if creating:
+            stock_item = self.product.stock
+
+            StockMovement.objects.create(
+                stock_item=stock_item,
+                movement_type=StockMovement.OUT,
+                quantity=self.quantity,
+                reference=f"Sale-{self.sale.id}",
+            )
