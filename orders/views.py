@@ -43,17 +43,6 @@ class SaleListView(generics.ListAPIView):
     queryset = Sale.objects.all().order_by("-id")
     serializer_class = SaleSerializer
 
-    def list(self, request, *args, **kwargs):
-        data = []
-
-        for sale in self.get_queryset():
-            data.append({
-                "id": sale.id,
-                "customer_name": sale.customer_name,
-                "sale_date": sale.sale_date,
-            })
-
-        return Response(data)
     
 class CreateSaleView(APIView):
 
