@@ -6,51 +6,80 @@
     <title>{% block title %}Smart Inventory{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-100 text-slate-900 min-h-screen">
-    <nav class="bg-slate-950 text-white border-b border-slate-800 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold tracking-tight hover:text-slate-300 transition">
-                Smart Inventory
-            </a>
 
-            <div class="space-x-2 text-sm flex items-center">
-                {% if user.is_authenticated %}
+<body class="bg-slate-100 text-slate-900 min-h-screen">
+
+<nav class="bg-slate-950 text-white border-b border-slate-800 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+        <!-- Logo -->
+        <a href="/" class="text-2xl font-bold tracking-tight hover:text-slate-300 transition">
+            Smart Inventory
+        </a>
+
+        <div class="flex items-center space-x-4 text-sm">
+
+            {% if user.is_authenticated %}
+
+            <!-- Navigation -->
+            <div class="flex items-center space-x-2">
+
                 <a href="/"
-                class="px-3 py-2 rounded-md transition {% if request.path == '/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                   class="px-3 py-2 rounded-md transition {% if request.path == '/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Dashboard
                 </a>
 
                 <a href="/products-page/"
-                class="px-3 py-2 rounded-md transition {% if request.path == '/products-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                   class="px-3 py-2 rounded-md transition {% if request.path == '/products-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Products
                 </a>
 
                 <a href="/inventory-page/"
-                class="px-3 py-2 rounded-md transition {% if request.path == '/inventory-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                   class="px-3 py-2 rounded-md transition {% if request.path == '/inventory-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Inventory
                 </a>
 
                 <a href="/alerts-page/"
-                class="px-3 py-2 rounded-md transition {% if request.path == '/alerts-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                   class="px-3 py-2 rounded-md transition {% if request.path == '/alerts-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Alerts
                 </a>
 
+            </div>
+
+            <!-- User section -->
+            <div class="flex items-center space-x-3 ml-4 border-l border-slate-700 pl-4">
+
+                <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-semibold uppercase">
+                    {{ request.user.username|slice:":1" }}
+                </div>
+
+                <span class="text-slate-300 font-medium">
+                    {{ request.user.username|title }}
+                </span>
+
                 <a href="{% url 'logout' %}"
-                class="px-3 py-2 rounded-md transition text-white hover:bg-slate-800">
+                   class="px-3 py-1.5 rounded-md bg-red-600 hover:bg-red-700 text-white transition text-sm">
                     Logout
                 </a>
-                {% else %}
-                <a href="{% url 'login' %}"
-                class="px-3 py-2 rounded-md transition {% if request.path == '/login/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
-                    Login
-                </a>
-                {% endif %}
-            </div>
-        </div>
-    </nav>
 
-    <main class="max-w-7xl mx-auto px-6 py-8">
-        {% block content %}{% endblock %}
-    </main>
+            </div>
+
+            {% else %}
+
+            <a href="{% url 'login' %}"
+               class="px-4 py-2 rounded-md bg-white text-slate-900 font-semibold hover:bg-slate-200 transition">
+                Login
+            </a>
+
+            {% endif %}
+
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-6 py-8">
+    {% block content %}{% endblock %}
+</main>
+
 </body>
 </html>

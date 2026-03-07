@@ -1,39 +1,109 @@
 {% extends "frontend/base.html" %}
 
-{% block title %}Log in{% endblock %}
+{% block title %}Login | Smart Inventory{% endblock %}
 
 {% block content %}
-<div class="min-h-[80vh] flex items-center justify-center">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-        <h2 class="text-3xl font-bold mb-2">Log in</h2>
-        <p class="text-slate-600 mb-6">Sign in to access Smart Inventory.</p>
+<div class="min-h-[calc(100vh-140px)] flex items-center justify-center">
+    <div class="w-full max-w-5xl grid md:grid-cols-2 bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
 
-        <form method="POST" class="space-y-4">
-            {% csrf_token %}
+        <!-- Left Side -->
+        <div class="hidden md:flex flex-col justify-center bg-slate-950 text-white p-10">
+            <div class="max-w-md">
+                <p class="text-sm uppercase tracking-[0.2em] text-slate-400 mb-3">
+                    Smart Inventory Management System
+                </p>
+                <h1 class="text-4xl font-bold leading-tight mb-4">
+                    Manage stock, sales, and alerts in one place
+                </h1>
+                <p class="text-slate-300 text-base leading-7">
+                    Secure access to your inventory dashboard for tracking products,
+                    monitoring stock levels, and handling business operations efficiently.
+                </p>
 
-            <div>
-                <label class="block text-sm font-medium mb-2">Username</label>
-                <input type="text" name="username"
-                       class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900"
-                       required>
+                <div class="mt-8 space-y-4 text-sm text-slate-300">
+                    <div class="flex items-center gap-3">
+                        <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                        Product and stock monitoring
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>
+                        Sales and purchase tracking
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                        Low stock alert visibility
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div>
-                <label class="block text-sm font-medium mb-2">Password</label>
-                <input type="password" name="password"
-                       class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900"
-                       required>
+        <!-- Right Side -->
+        <div class="p-8 md:p-10 flex items-center justify-center bg-white">
+            <div class="w-full max-w-md">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900">
+                        Welcome back
+                    </h2>
+                    <p class="text-slate-600 mt-2">
+                        Sign in to access your dashboard.
+                    </p>
+                </div>
+
+                {% if messages %}
+                    <div class="mb-5 space-y-3">
+                        {% for message in messages %}
+                            <div class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="post" class="space-y-5">
+                    {% csrf_token %}
+
+                    <div>
+                        <label for="username" class="block text-sm font-semibold text-slate-800 mb-2">
+                            Username
+                        </label>
+                        <input
+                            type="text"
+                            name="username"
+                            id="username"
+                            placeholder="Enter your username"
+                            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
+                            required
+                        >
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-semibold text-slate-800 mb-2">
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-slate-950 focus:ring-2 focus:ring-slate-200"
+                            required
+                        >
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="w-full rounded-xl bg-slate-950 px-4 py-3 text-white font-semibold hover:bg-slate-800 transition shadow-sm"
+                    >
+                        Sign In
+                    </button>
+                </form>
+
+                <p class="text-xs text-slate-500 mt-6 text-center">
+                    Authorized access only. Use your project credentials to continue.
+                </p>
             </div>
+        </div>
 
-            {% if error %}
-            <p class="text-red-600 text-sm font-medium">{{ error }}</p>
-            {% endif %}
-
-            <button type="submit"
-                    class="w-full bg-slate-900 text-white py-3 rounded-lg font-semibold hover:bg-slate-800 transition">
-                Login
-            </button>
-        </form>
     </div>
 </div>
 {% endblock %}
