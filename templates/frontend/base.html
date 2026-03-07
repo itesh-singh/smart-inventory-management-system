@@ -24,22 +24,22 @@
             <!-- Navigation -->
             <div class="flex items-center space-x-2">
 
-                <a href="/"
+                <a href="{% url 'dashboard' %}"
                    class="px-3 py-2 rounded-md transition {% if request.path == '/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Dashboard
                 </a>
 
-                <a href="/products-page/"
+                <a href="{% url 'products_page' %}   "
                    class="px-3 py-2 rounded-md transition {% if request.path == '/products-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Products
                 </a>
 
-                <a href="/inventory-page/"
+                <a href="{% url 'inventory_page' %}"
                    class="px-3 py-2 rounded-md transition {% if request.path == '/inventory-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Inventory
                 </a>
 
-                <a href="/alerts-page/"
+                <a href="{% url 'alerts_page' %}"
                    class="px-3 py-2 rounded-md transition {% if request.path == '/alerts-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Alerts
                 </a>
