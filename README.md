@@ -8,8 +8,10 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white)
 
-**A REST API for managing inventory, suppliers, orders, and stock alerts for small businesses.**
+**A full-stack inventory management system with a Django REST API backend and an interactive Tailwind dashboard — built for small businesses.**
 
 [Features](#-features) • [Tech Stack](#-tech-stack) • [Getting Started](#-getting-started) • [API Docs](#-api-documentation) • [Project Structure](#-project-structure) • [Docker](#-running-with-docker)
 
@@ -19,15 +21,18 @@
 
 ## 🚀 About The Project
 
-The **Smart Inventory Management System** is a backend REST API built as a final year BCA project. It helps small businesses track products, manage stock levels, handle purchase orders and sales, and get AI-powered reorder suggestions — all through a secure, documented API.
+The **Smart Inventory Management System** is a full-stack web application built as a BCA Final Year Project. It helps small businesses manage products, track inventory, handle purchase orders and sales, and visualize stock data through an interactive dashboard.
 
 Key highlights:
+
 - 🔐 **JWT Authentication** — secure token-based login with access and refresh tokens
 - 📦 **Real-time stock tracking** — auto-updates on every sale or purchase
-- 🔔 **Automatic low-stock alerts** — triggered when stock drops below reorder level
+- 🔔 **Low-stock alerts** — triggered when stock drops below reorder level
 - 🤖 **Smart reorder suggestions** — based on current stock vs reorder thresholds
-- 🐳 **Fully Dockerized** — runs with a single command
+- 📊 **Interactive dashboard** — sales analytics and low-stock charts with Chart.js
+- 🖥️ **Web UI** — Tailwind CSS dashboard for managing inventory
 - 📄 **Swagger API docs** — auto-generated interactive documentation
+- 🐳 **Fully Dockerized** — runs with a single command
 
 ---
 
@@ -36,13 +41,16 @@ Key highlights:
 | Feature | Description |
 |---|---|
 | 🏷️ Product Management | Add, update, delete products with categories and SKU |
-| 📊 Inventory Tracking | Real-time stock levels with full movement history |
+| 📦 Inventory Tracking | Real-time stock levels with full movement history |
 | 🏢 Supplier Management | Manage suppliers linked to products |
-| 🛒 Purchase Orders | Create and approve purchase orders — auto-updates stock |
+| 🛒 Purchase Orders | Create purchase orders — auto-increases stock on approval |
 | 💰 Sales Recording | Record sales — auto-deducts from inventory |
 | 🔔 Low-Stock Alerts | Alerts generated when stock falls below reorder level |
 | 🤖 Reorder Suggestions | Suggests reorder quantities based on inventory thresholds |
-| 📈 Dashboard | Summary stats including total products, stock value, and orders |
+| 📊 Dashboard Overview | Stats for total products, stock value, sales, and alerts |
+| 📈 Sales Analytics | Chart.js visualization of sales trends |
+| 📉 Low Stock Chart | Visualization of products with critically low stock |
+| 🖥️ Web Dashboard | Tailwind CSS UI for managing inventory in the browser |
 | 🔐 JWT Auth | Secure token-based authentication with refresh tokens |
 | 📄 Swagger Docs | Interactive API documentation at `/api/docs/` |
 | 🐳 Docker Deployment | Full Docker Compose setup with all services |
@@ -53,11 +61,15 @@ Key highlights:
 
 | Layer | Technology |
 |---|---|
-| **Framework** | Django 6.0.3 + Django REST Framework 3.16.1 |
+| **Backend Framework** | Django 6.0.3 + Django REST Framework 3.16.1 |
+| **Frontend** | Django Templates + Tailwind CSS |
+| **Charts** | Chart.js |
 | **Database** | PostgreSQL |
 | **Authentication** | JWT via SimpleJWT 5.5.1 |
 | **API Documentation** | Swagger (drf-yasg 1.21.15) |
 | **Containerization** | Docker + Docker Compose |
+| **Production Server** | Gunicorn |
+| **Static Files** | WhiteNoise |
 
 ---
 
@@ -76,8 +88,10 @@ smart-inventory-management-system/
 ├── suppliers/               # Supplier management
 ├── orders/                  # Purchase orders and sales
 ├── alerts/                  # Low-stock alert system
-├── dashboard/               # Summary stats and reorder suggestions
+├── dashboard/               # Summary stats, charts, reorder suggestions
 │
+├── templates/               # HTML templates (Tailwind UI)
+├── static/                  # Static files (CSS, JS)
 ├── manage.py
 ├── requirements.txt
 ├── Dockerfile
@@ -92,6 +106,7 @@ smart-inventory-management-system/
 ### Prerequisites
 - Python 3.12+
 - PostgreSQL
+- Git
 
 ### 1. Clone the repository
 ```bash
@@ -115,8 +130,8 @@ pip install -r requirements.txt
 
 Create a `.env` file in the root directory:
 ```env
-SECRET_KEY=your-secret-key-here
-DEBUG=True
+DJANGO_SECRET_KEY=your-secret-key
+DJANGO_DEBUG=True
 DB_NAME=inventory_db
 DB_USER=postgres
 DB_PASSWORD=your-password
@@ -140,13 +155,15 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
+Open: **http://localhost:8000**
+
 ---
 
 ## 🐳 Running with Docker
 
 > Runs the entire system (Django + PostgreSQL) with **one command.**
 
-### 1. Clone the repo and configure `.env`
+### 1. Clone and configure
 ```bash
 git clone https://github.com/itesh-singh/smart-inventory-management-system.git
 cd smart-inventory-management-system
@@ -227,18 +244,29 @@ Access Django Admin at:
 ```
 http://localhost:8000/admin/
 ```
-Log in with the superuser credentials you created.
 
 ---
 
 ## 📸 Screenshots
 
+### Login Page
+![Login](screenshots/login.png)
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Products
+![Products](screenshots/products.png)
+
+### Inventory
+![Inventory](screenshots/inventory.png)
+
+### Alerts
+![Alerts](screenshots/alerts.png)
+
 ### Swagger API Documentation
 ![Swagger 01](screenshots/swagger_01.png)
 ![Swagger 02](screenshots/swagger_02.png)
-
-### Django Admin Panel
-![Admin](screenshots/admin.png)
 
 ### Docker Containers Running
 ![Docker](screenshots/docker.png)
@@ -247,11 +275,11 @@ Log in with the superuser credentials you created.
 
 ## 🔮 Future Improvements
 
-- [ ] Web dashboard UI with charts (Chart.js)
 - [ ] Email notifications for low-stock alerts
-- [ ] Advanced analytics and forecasting
-- [ ] Mobile app integration
-- [ ] Barcode scanning support
+- [ ] AI-based demand forecasting
+- [ ] Barcode / QR code product scanning
+- [ ] Multi-warehouse inventory support
+- [ ] Role-based access control (Admin / Staff)
 
 ---
 
