@@ -6,7 +6,7 @@
 
 <h2 class="text-2xl font-bold mb-6">Dashboard</h2>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
 
     <div class="bg-white p-6 rounded-lg shadow">
         <h3 class="text-lg font-semibold">Total Products</h3>
@@ -14,13 +14,18 @@
     </div>
 
     <div class="bg-white p-6 rounded-lg shadow">
-        <h3 class="text-lg font-semibold">Low Stock Items</h3>
-        <p class="text-3xl mt-2">{{ low_stock }}</p>
+        <h3 class="text-lg font-semibold">Low Stock</h3>
+        <p class="text-3xl mt-2 text-red-600">{{ low_stock }}</p>
     </div>
 
     <div class="bg-white p-6 rounded-lg shadow">
         <h3 class="text-lg font-semibold">Total Sales</h3>
         <p class="text-3xl mt-2">{{ total_sales }}</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+        <h3 class="text-lg font-semibold">Active Alerts</h3>
+        <p class="text-3xl mt-2 text-orange-600">{{ active_alerts }}</p>
     </div>
 
 </div>
