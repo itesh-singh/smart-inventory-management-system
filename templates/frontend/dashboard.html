@@ -50,4 +50,40 @@
     </a>
 </div>
 
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mt-8">
+    <h3 class="text-lg font-semibold text-slate-800 mb-4">Sales (Last 7 Days)</h3>
+    <canvas id="salesChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const labels = {{ sales_labels|safe }};
+const data = {{ sales_data|safe }};
+
+const ctx = document.getElementById("salesChart");
+
+new Chart(ctx, {
+    type: "line",
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Sales",
+            data: data,
+            borderColor: "#1e293b",
+            backgroundColor: "rgba(30, 41, 59, 0.1)",
+            tension: 0.4,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
+    }
+});
+</script>
+
 {% endblock %}

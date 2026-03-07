@@ -6,6 +6,10 @@ from inventory.models import StockItem
 from orders.models import Sale
 from alerts.models import Alert
 from django.db import models
+from django.db.models.functions import TruncDate
+from django.db.models import Count
+from datetime import timedelta
+from django.utils import timezone
 
 
 def login_view(request):
@@ -24,7 +28,7 @@ def login_view(request):
             login(request, user)
             return redirect("dashboard")
         else:
-            context["error"] = True  # flag for template
+            context["error"] = True
 
     return render(request, "frontend/login.html", context)
 
@@ -43,11 +47,26 @@ def dashboard_view(request):
     total_sales = Sale.objects.count()
     active_alerts = Alert.objects.filter(is_resolved=False).count()
 
+    last_7_days = timezone.now() - timedelta(days=7)
+
+    sales_data = (
+        Sale.objects.filter(created_at__gte=last_7_days)
+        .annotate(day=TruncDate("created_at"))
+        .values("day")
+        .annotate(count=Count("id"))
+        .order_by("day")
+    )
+
+    labels = [str(item["day"]) for item in sales_data]
+    data = [item["count"] for item in sales_data]
+
     context = {
         "total_products": total_products,
         "low_stock": low_stock,
         "total_sales": total_sales,
         "active_alerts": active_alerts,
+        "sales_labels": labels,
+        "sales_data": data,
     }
 
     return render(request, "frontend/dashboard.html", context)
