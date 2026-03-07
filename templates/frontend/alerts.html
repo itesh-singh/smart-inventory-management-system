@@ -1,0 +1,36 @@
+{% extends "frontend/base.html" %}
+
+{% block title %}Alerts{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-6">Alerts</h2>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+    <table class="w-full text-left">
+        <thead class="bg-slate-200">
+            <tr>
+                <th class="p-3">Product</th>
+                <th class="p-3">SKU</th>
+                <th class="p-3">Message</th>
+                <th class="p-3">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in alerts %}
+            <tr class="border-t">
+                <td class="p-3">{{ alert.product.name }}</td>
+                <td class="p-3">{{ alert.product.sku }}</td>
+                <td class="p-3">{{ alert.message }}</td>
+                <td class="p-3">
+                    {% if alert.is_resolved %}
+                        <span class="text-green-600 font-semibold">Resolved</span>
+                    {% else %}
+                        <span class="text-red-600 font-semibold">Active</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

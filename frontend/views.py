@@ -2,6 +2,7 @@ from django.shortcuts import render
 from products.models import Product
 from inventory.models import StockItem
 from orders.models import Sale
+from alerts.models import Alert
 
 def dashboard_view(request):
 
@@ -35,3 +36,13 @@ def inventory_view(request):
     }
 
     return render(request, "frontend/inventory.html", context)
+
+def alerts_view(request):
+
+    alerts = Alert.objects.select_related("product").order_by("-created_at")
+
+    context = {
+        "alerts": alerts
+    }
+
+    return render(request, "frontend/alerts.html", context)
