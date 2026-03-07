@@ -14,25 +14,37 @@
             </a>
 
             <div class="space-x-2 text-sm flex items-center">
+                {% if user.is_authenticated %}
                 <a href="/"
-                   class="px-3 py-2 rounded-md transition {% if request.path == '/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                class="px-3 py-2 rounded-md transition {% if request.path == '/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Dashboard
                 </a>
 
                 <a href="/products-page/"
-                   class="px-3 py-2 rounded-md transition {% if request.path == '/products-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                class="px-3 py-2 rounded-md transition {% if request.path == '/products-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Products
                 </a>
 
                 <a href="/inventory-page/"
-                   class="px-3 py-2 rounded-md transition {% if request.path == '/inventory-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                class="px-3 py-2 rounded-md transition {% if request.path == '/inventory-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Inventory
                 </a>
 
                 <a href="/alerts-page/"
-                   class="px-3 py-2 rounded-md transition {% if request.path == '/alerts-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                class="px-3 py-2 rounded-md transition {% if request.path == '/alerts-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
                     Alerts
                 </a>
+
+                <a href="{% url 'logout' %}"
+                class="px-3 py-2 rounded-md transition text-white hover:bg-slate-800">
+                    Logout
+                </a>
+                {% else %}
+                <a href="{% url 'login' %}"
+                class="px-3 py-2 rounded-md transition {% if request.path == '/login/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                    Login
+                </a>
+                {% endif %}
             </div>
         </div>
     </nav>
