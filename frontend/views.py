@@ -12,7 +12,7 @@ def login_view(request):
     if request.user.is_authenticated:
         return redirect("dashboard")
 
-    error = None
+    context = {}
 
     if request.method == "POST":
         username = request.POST.get("username")
@@ -24,9 +24,9 @@ def login_view(request):
             login(request, user)
             return redirect("dashboard")
         else:
-            error = "Invalid username or password"
+            context["error"] = True  # flag for template
 
-    return render(request, "frontend/login.html", {"error": error})
+    return render(request, "frontend/login.html", context)
 
 
 def logout_view(request):

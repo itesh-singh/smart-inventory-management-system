@@ -48,17 +48,11 @@
                         Sign in to access your dashboard.
                     </p>
                 </div>
-
-                {% if messages %}
-                    <div class="mb-5 space-y-3">
-                        {% for message in messages %}
-                            <div class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    </div>
+                {% if error %}
+                <div class="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    Invalid username or password.
+                </div>
                 {% endif %}
-
                 <form method="post" class="space-y-5">
                     {% csrf_token %}
 
