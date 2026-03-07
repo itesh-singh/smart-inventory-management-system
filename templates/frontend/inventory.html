@@ -1,0 +1,32 @@
+{% extends "frontend/base.html" %}
+
+{% block title %}Inventory{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold mb-6">Inventory</h2>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+    <table class="w-full text-left">
+        <thead class="bg-slate-200">
+            <tr>
+                <th class="p-3">Product</th>
+                <th class="p-3">SKU</th>
+                <th class="p-3">Quantity</th>
+                <th class="p-3">Reorder Level</th>
+                <th class="p-3">Reorder Qty</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in stock_items %}
+            <tr class="border-t">
+                <td class="p-3">{{ item.product.name }}</td>
+                <td class="p-3">{{ item.product.sku }}</td>
+                <td class="p-3">{{ item.quantity_on_hand }}</td>
+                <td class="p-3">{{ item.reorder_level }}</td>
+                <td class="p-3">{{ item.reorder_qty }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

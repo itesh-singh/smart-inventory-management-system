@@ -26,3 +26,12 @@ def products_view(request):
     }
 
     return render(request, "frontend/products.html", context)
+
+def inventory_view(request):
+    stock_items = StockItem.objects.select_related("product").all()
+
+    context = {
+        "stock_items": stock_items
+    }
+
+    return render(request, "frontend/inventory.html", context)
