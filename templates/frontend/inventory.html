@@ -18,6 +18,7 @@
                 <th class="px-6 py-4 font-semibold">Quantity</th>
                 <th class="px-6 py-4 font-semibold">Reorder Level</th>
                 <th class="px-6 py-4 font-semibold">Reorder Qty</th>
+                <th class="px-6 py-4 font-semibold">Status</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-slate-200">
@@ -28,6 +29,17 @@
                 <td class="px-6 py-4">{{ item.quantity_on_hand }}</td>
                 <td class="px-6 py-4">{{ item.reorder_level }}</td>
                 <td class="px-6 py-4">{{ item.reorder_qty }}</td>
+                <td class="px-6 py-4">
+                    {% if item.quantity_on_hand <= item.reorder_level %}
+                        <span class="inline-flex px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-700">
+                            Low
+                        </span>
+                    {% else %}
+                        <span class="inline-flex px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-700">
+                            OK
+                        </span>
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
