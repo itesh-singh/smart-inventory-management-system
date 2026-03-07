@@ -6,20 +6,36 @@
     <title>{% block title %}Smart Inventory{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-100 text-slate-900">
-    <nav class="bg-slate-900 text-white px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold">Smart Inventory</h1>
-            <div class="space-x-4 text-sm">
-                <a href="/" class="hover:text-slate-300">Dashboard</a>
-                <a href="/products-page/" class="hover:text-slate-300">Products</a>
-                <a href="/inventory-page/" class="hover:text-slate-300">Inventory</a>
-                <a href="/alerts-page/" class="hover:text-slate-300">Alerts</a>
+<body class="bg-slate-100 text-slate-900 min-h-screen">
+    <nav class="bg-slate-950 text-white border-b border-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tight">Smart Inventory</h1>
+
+            <div class="space-x-2 text-sm flex items-center">
+                <a href="/"
+                   class="px-3 py-2 rounded-md transition {% if request.path == '/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                    Dashboard
+                </a>
+
+                <a href="/products-page/"
+                   class="px-3 py-2 rounded-md transition {% if request.path == '/products-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                    Products
+                </a>
+
+                <a href="/inventory-page/"
+                   class="px-3 py-2 rounded-md transition {% if request.path == '/inventory-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                    Inventory
+                </a>
+
+                <a href="/alerts-page/"
+                   class="px-3 py-2 rounded-md transition {% if request.path == '/alerts-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                    Alerts
+                </a>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto p-6">
+    <main class="max-w-7xl mx-auto px-6 py-8">
         {% block content %}{% endblock %}
     </main>
 </body>

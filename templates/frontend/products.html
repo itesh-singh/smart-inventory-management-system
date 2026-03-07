@@ -4,28 +4,31 @@
 
 {% block content %}
 
-<h2 class="text-2xl font-bold mb-6">Products</h2>
+<div class="mb-8">
+    <h2 class="text-3xl font-bold tracking-tight">Products</h2>
+    <p class="text-slate-600 mt-2">List of all products available in the inventory system.</p>
+</div>
 
-<div class="bg-white shadow rounded-lg overflow-hidden">
+<div class="bg-white shadow-sm rounded-2xl border border-slate-200 overflow-hidden">
     <table class="w-full text-left">
-        <thead class="bg-slate-200">
+        <thead class="bg-slate-50 text-slate-700">
             <tr>
-                <th class="p-3">ID</th>
-                <th class="p-3">Name</th>
-                <th class="p-3">SKU</th>
-                <th class="p-3">Cost Price</th>
-                <th class="p-3">Selling Price</th>
+                <th class="px-6 py-4 font-semibold">ID</th>
+                <th class="px-6 py-4 font-semibold">Name</th>
+                <th class="px-6 py-4 font-semibold">SKU</th>
+                <th class="px-6 py-4 font-semibold">Cost Price</th>
+                <th class="px-6 py-4 font-semibold">Selling Price</th>
             </tr>
         </thead>
 
-        <tbody>
+        <tbody class="divide-y divide-slate-200">
             {% for product in products %}
-            <tr class="border-t">
-                <td class="p-3">{{ product.id }}</td>
-                <td class="p-3">{{ product.name }}</td>
-                <td class="p-3">{{ product.sku }}</td>
-                <td class="p-3">{{ product.cost_price }}</td>
-                <td class="p-3">{{ product.selling_price }}</td>
+            <tr class="hover:bg-slate-50 transition">
+                <td class="px-6 py-4">{{ product.id }}</td>
+                <td class="px-6 py-4 font-medium">{{ product.name }}</td>
+                <td class="px-6 py-4">{{ product.sku }}</td>
+                <td class="px-6 py-4">{{ product.cost_price }}</td>
+                <td class="px-6 py-4">{{ product.selling_price }}</td>
             </tr>
             {% endfor %}
         </tbody>
