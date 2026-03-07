@@ -59,14 +59,22 @@ def dashboard_view(request):
 
     labels = [str(item["day"]) for item in sales_data]
     data = [item["count"] for item in sales_data]
+    low_stock_items = (
+        StockItem.objects.filter(quantity_on_hand__lte=models.F("reorder_level"))
+        .select_related("product")
+    )
 
+    low_stock_labels = [item.product.name for item in low_stock_items]
+    low_stock_data = [item.quantity_on_hand for item in low_stock_items]
     context = {
-        "total_products": total_products,
-        "low_stock": low_stock,
-        "total_sales": total_sales,
-        "active_alerts": active_alerts,
-        "sales_labels": labels,
-        "sales_data": data,
+    "total_products": total_products,
+    "low_stock": low_stock,
+    "total_sales": total_sales,
+    "active_alerts": active_alerts,
+    "sales_labels": labels,
+    "sales_data": data,
+    "low_stock_labels": low_stock_labels,
+    "low_stock_data": low_stock_data,
     }
 
     return render(request, "frontend/dashboard.html", context)
