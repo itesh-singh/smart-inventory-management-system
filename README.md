@@ -95,7 +95,7 @@ smart-inventory-management-system/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/smart-inventory-management-system.git
+git clone https://github.com/itesh-singh/smart-inventory-management-system.git
 cd smart-inventory-management-system
 ```
 
@@ -148,7 +148,7 @@ python manage.py runserver
 
 ### 1. Clone the repo and configure `.env`
 ```bash
-git clone https://github.com/your-username/smart-inventory-management-system.git
+git clone https://github.com/itesh-singh/smart-inventory-management-system.git
 cd smart-inventory-management-system
 cp .env.example .env   # then edit .env with your values
 ```
@@ -260,8 +260,8 @@ Log in with the superuser credentials you created.
 **Itesh Singh**
 BCA Final Year — Smart Inventory Management System
 
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/your-username)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/your-profile)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/itesh-singh)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/itesh-singh-113b55323)
 
 ---
 
