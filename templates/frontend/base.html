@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Smart Inventory{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-900">
+    <nav class="bg-slate-900 text-white px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Smart Inventory</h1>
+            <div class="space-x-4 text-sm">
+                <a href="/" class="hover:text-slate-300">Dashboard</a>
+                <a href="/products-page/" class="hover:text-slate-300">Products</a>
+                <a href="/inventory-page/" class="hover:text-slate-300">Inventory</a>
+                <a href="/alerts-page/" class="hover:text-slate-300">Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-6">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
