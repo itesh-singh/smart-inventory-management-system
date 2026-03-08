@@ -1,7 +1,7 @@
 from django.db import models
 from products.models import Product
 from django.core.exceptions import ValidationError
-from alerts.models import Alert
+from alerts.utils import sync_stock_alerts
 
 
 class StockItem(models.Model):
@@ -13,6 +13,10 @@ class StockItem(models.Model):
 
     def __str__(self):
         return f"{self.product.sku} - {self.quantity_on_hand}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        sync_stock_alerts(self)
 
 
 class StockMovement(models.Model):
@@ -58,26 +62,3 @@ class StockMovement(models.Model):
                 stock.quantity_on_hand = self.quantity
 
             stock.save()
-
-            # resolve all existing active alerts first
-            Alert.objects.filter(
-                product=stock.product,
-                is_resolved=False
-            ).update(is_resolved=True)
-
-            # create the correct current alert only if needed
-            if stock.quantity_on_hand == 0:
-                Alert.objects.create(
-                    alert_type=Alert.OUT_OF_STOCK,
-                    product=stock.product,
-                    message=f"{stock.product.name} is out of stock.",
-                    is_resolved=False,
-                )
-
-            elif stock.quantity_on_hand <= stock.reorder_level:
-                Alert.objects.create(
-                    alert_type=Alert.LOW_STOCK,
-                    product=stock.product,
-                    message=f"{stock.product.name} is running low.",
-                    is_resolved=False,
-                )
