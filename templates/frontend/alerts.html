@@ -5,41 +5,81 @@
 {% block content %}
 
 <div class="mb-8">
-    <h2 class="text-3xl font-bold tracking-tight">Alerts</h2>
+    <h2 class="text-3xl font-bold tracking-tight text-slate-900">Alerts</h2>
     <p class="text-slate-600 mt-2">Monitor low-stock and active inventory alerts.</p>
 </div>
 
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Total Alerts</h3>
+        <p class="text-4xl font-bold mt-3 text-slate-900">{{ total_alerts }}</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Active Alerts</h3>
+        <p class="text-4xl font-bold mt-3 text-red-600">{{ active_alerts }}</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">Resolved Alerts</h3>
+        <p class="text-4xl font-bold mt-3 text-green-600">{{ resolved_alerts }}</p>
+    </div>
+</div>
+
 <div class="bg-white shadow-sm rounded-2xl border border-slate-200 overflow-hidden">
-    <table class="w-full text-left">
-        <thead class="bg-slate-50 text-slate-700">
-            <tr>
-                <th class="px-6 py-4 font-semibold">Product</th>
-                <th class="px-6 py-4 font-semibold">SKU</th>
-                <th class="px-6 py-4 font-semibold">Message</th>
-                <th class="px-6 py-4 font-semibold">Status</th>
-            </tr>
-        </thead>
-        <tbody class="divide-y divide-slate-200">
-            {% for alert in alerts %}
-            <tr class="hover:bg-slate-50 transition">
-                <td class="px-6 py-4 font-medium">{{ alert.product.name }}</td>
-                <td class="px-6 py-4">{{ alert.product.sku }}</td>
-                <td class="px-6 py-4">{{ alert.message }}</td>
-                <td class="px-6 py-4">
-                    {% if alert.is_resolved %}
-                        <span class="inline-flex px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-700">
-                            Resolved
-                        </span>
-                    {% else %}
-                        <span class="inline-flex px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-700">
-                            Active
-                        </span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {% if alerts %}
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead class="bg-slate-50 text-slate-700">
+                <tr>
+                    <th class="px-6 py-4 font-semibold">Product</th>
+                    <th class="px-6 py-4 font-semibold">SKU</th>
+                    <th class="px-6 py-4 font-semibold">Alert Type</th>
+                    <th class="px-6 py-4 font-semibold">Message</th>
+                    <th class="px-6 py-4 font-semibold">Created</th>
+                    <th class="px-6 py-4 font-semibold">Status</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+                {% for alert in alerts %}
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="px-6 py-4 font-semibold text-slate-900">{{ alert.product.name }}</td>
+                    <td class="px-6 py-4 text-slate-700">{{ alert.product.sku }}</td>
+                    <td class="px-6 py-4">
+                        {% if alert.alert_type == "OUT_OF_STOCK" %}
+                            <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
+                                Out of Stock
+                            </span>
+                        {% else %}
+                            <span class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700">
+                                Low Stock
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 text-slate-700">{{ alert.message }}</td>
+                    <td class="px-6 py-4 text-slate-500">{{ alert.created_at|date:"d M Y, h:i A" }}</td>
+                    <td class="px-6 py-4">
+                        {% if alert.is_resolved %}
+                            <span class="inline-flex px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-700">
+                                Resolved
+                            </span>
+                        {% else %}
+                            <span class="inline-flex px-3 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-700">
+                                Active
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="px-6 py-12 text-center">
+        <h3 class="text-lg font-semibold text-slate-800">No alerts found</h3>
+        <p class="text-slate-500 mt-2">Everything looks good right now.</p>
+    </div>
+    {% endif %}
 </div>
 
 {% endblock %}

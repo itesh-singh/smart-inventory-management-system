@@ -95,4 +95,12 @@ def inventory_view(request):
 @login_required
 def alerts_view(request):
     alerts = Alert.objects.select_related("product").order_by("-created_at")
-    return render(request, "frontend/alerts.html", {"alerts": alerts})
+
+    context = {
+        "alerts": alerts,
+        "total_alerts": alerts.count(),
+        "active_alerts": alerts.filter(is_resolved=False).count(),
+        "resolved_alerts": alerts.filter(is_resolved=True).count(),
+    }
+
+    return render(request, "frontend/alerts.html", context)
