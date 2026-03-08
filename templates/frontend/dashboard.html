@@ -3,67 +3,161 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+<div class="space-y-8">
 
-<div class="mb-8">
-    <h2 class="text-3xl font-bold tracking-tight">Dashboard</h2>
-    <p class="text-slate-600 mt-2">Overview of products, stock, sales, and alerts.</p>
-</div>
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h2 class="text-3xl font-bold tracking-tight text-slate-900">Inventory Dashboard</h2>
+            <p class="text-slate-600 mt-2">
+                Monitor products, stock movement, sales activity, and alerts in one place.
+            </p>
+        </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">📦 Total Products</h3>
-        <p class="text-4xl font-bold mt-3">{{ total_products }}</p>
-    </div>
-
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">⚠️ Low Stock</h3>
-        <p class="text-4xl font-bold mt-3 text-red-600">{{ low_stock }}</p>
-    </div>
-
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">💰 Total Sales</h3>
-        <p class="text-4xl font-bold mt-3">{{ total_sales }}</p>
-    </div>
-
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-        <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide">🔔 Active Alerts</h3>
-        <p class="text-4xl font-bold mt-3 text-orange-600">{{ active_alerts }}</p>
-    </div>
-
-</div>
-
-<div class="mt-8 flex flex-wrap gap-4">
-    <a href="{% url 'products_page' %}"
-       class="inline-flex items-center px-5 py-3 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 transition">
-        View Products
-    </a>
-
-    <a href="{% url 'inventory_page' %}"
-       class="inline-flex items-center px-5 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-500 transition">
-        View Inventory
-    </a>
-
-    <a href="{% url 'alerts_page' %}"
-       class="inline-flex items-center px-5 py-3 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-500 transition">
-        View Alerts
-    </a>
-</div>
-    
-<div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-8">
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-        <h3 class="text-lg font-semibold text-slate-800 mb-4">Sales (Last 7 Days)</h3>
-        <div class="h-80">
-            <canvas id="salesChart"></canvas>
+        <div class="bg-white border border-slate-200 rounded-xl px-4 py-3 shadow-sm">
+            <p class="text-sm text-slate-500">System Summary</p>
+            <p class="text-sm font-medium text-slate-800 mt-1">
+                {{ low_stock }} low stock item{{ low_stock|pluralize }}, {{ active_alerts }} active alert{{ active_alerts|pluralize }}
+            </p>
         </div>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-        <h3 class="text-lg font-semibold text-slate-800 mb-4">Low Stock Products</h3>
-        <div class="h-80">
-            <canvas id="lowStockChart"></canvas>
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-500">Total Products</p>
+                    <p class="text-4xl font-bold mt-3 text-slate-900">{{ total_products }}</p>
+                    <p class="text-sm text-slate-400 mt-2">Products in catalog</p>
+                </div>
+                <div class="h-12 w-12 rounded-xl bg-slate-100 flex items-center justify-center text-xl">
+                    📦
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-red-100 hover:shadow-md transition">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-500">Low Stock</p>
+                    <p class="text-4xl font-bold mt-3 text-red-600">{{ low_stock }}</p>
+                    <p class="text-sm text-slate-400 mt-2">Needs replenishment</p>
+                </div>
+                <div class="h-12 w-12 rounded-xl bg-red-50 flex items-center justify-center text-xl">
+                    ⚠️
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 hover:shadow-md transition">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-500">Total Sales</p>
+                    <p class="text-4xl font-bold mt-3 text-emerald-600">{{ total_sales }}</p>
+                    <p class="text-sm text-slate-400 mt-2">Recorded sales entries</p>
+                </div>
+                <div class="h-12 w-12 rounded-xl bg-emerald-50 flex items-center justify-center text-xl">
+                    💰
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100 hover:shadow-md transition">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-500">Active Alerts</p>
+                    <p class="text-4xl font-bold mt-3 text-amber-600">{{ active_alerts }}</p>
+                    <p class="text-sm text-slate-400 mt-2">Require attention</p>
+                </div>
+                <div class="h-12 w-12 rounded-xl bg-amber-50 flex items-center justify-center text-xl">
+                    🔔
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="flex flex-wrap gap-4">
+        <a href="{% url 'products_page' %}"
+           class="inline-flex items-center px-5 py-3 rounded-xl bg-slate-900 text-white font-semibold hover:bg-slate-800 transition shadow-sm">
+            Manage Products
+        </a>
+
+        <a href="{% url 'inventory_page' %}"
+           class="inline-flex items-center px-5 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-500 transition shadow-sm">
+            Check Inventory
+        </a>
+
+        <a href="{% url 'alerts_page' %}"
+           class="inline-flex items-center px-5 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-500 transition shadow-sm">
+            Review Alerts
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800">Sales Trends</h3>
+                    <p class="text-sm text-slate-500">Last 7 days sales activity</p>
+                </div>
+            </div>
+            <div class="h-80">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800">Low Stock Products</h3>
+                    <p class="text-sm text-slate-500">Items closest to reorder level</p>
+                </div>
+            </div>
+            <div class="h-80">
+                <canvas id="lowStockChart"></canvas>
+            </div>
         </div>
     </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <div class="xl:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-semibold text-slate-800 mb-4">Dashboard Notes</h3>
+            <div class="grid sm:grid-cols-3 gap-4">
+                <div class="rounded-xl bg-slate-50 p-4 border border-slate-200">
+                    <p class="text-sm text-slate-500">Product Coverage</p>
+                    <p class="text-2xl font-bold text-slate-900 mt-2">{{ total_products }}</p>
+                </div>
+                <div class="rounded-xl bg-red-50 p-4 border border-red-100">
+                    <p class="text-sm text-slate-500">Restock Needed</p>
+                    <p class="text-2xl font-bold text-red-600 mt-2">{{ low_stock }}</p>
+                </div>
+                <div class="rounded-xl bg-amber-50 p-4 border border-amber-100">
+                    <p class="text-sm text-slate-500">Open Alerts</p>
+                    <p class="text-2xl font-bold text-amber-600 mt-2">{{ active_alerts }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-semibold text-slate-800 mb-4">Attention Needed</h3>
+            <ul class="space-y-3 text-sm text-slate-600">
+                <li class="flex justify-between">
+                    <span>Low stock items</span>
+                    <span class="font-semibold text-red-600">{{ low_stock }}</span>
+                </li>
+                <li class="flex justify-between">
+                    <span>Active alerts</span>
+                    <span class="font-semibold text-amber-600">{{ active_alerts }}</span>
+                </li>
+                <li class="flex justify-between">
+                    <span>Total sales records</span>
+                    <span class="font-semibold text-slate-900">{{ total_sales }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -71,27 +165,46 @@
 const labels = {{ sales_labels|safe }} || [];
 const data = {{ sales_data|safe }} || [];
 
-const ctx = document.getElementById("salesChart");
-
-new Chart(ctx, {
+new Chart(document.getElementById("salesChart"), {
     type: "line",
     data: {
         labels: labels,
         datasets: [{
             label: "Sales",
             data: data,
-            borderColor: "#1e293b",
-            backgroundColor: "rgba(30, 41, 59, 0.1)",
-            tension: 0.4,
-            fill: true
+            borderColor: "#2563eb",
+            backgroundColor: "rgba(37, 99, 235, 0.12)",
+            fill: true,
+            tension: 0.35,
+            borderWidth: 3,
+            pointRadius: 4,
+            pointHoverRadius: 6
         }]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: {
-                display: false
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: "#0f172a",
+                titleColor: "#fff",
+                bodyColor: "#fff",
+                padding: 12
+            }
+        },
+        scales: {
+            x: {
+                grid: { display: false },
+                ticks: { color: "#64748b" }
+            },
+            y: {
+                beginAtZero: true,
+                grid: { color: "rgba(148, 163, 184, 0.15)" },
+                ticks: {
+                    color: "#64748b",
+                    precision: 0
+                }
             }
         }
     }
@@ -102,23 +215,43 @@ new Chart(ctx, {
 const lowStockLabels = {{ low_stock_labels|safe }} || [];
 const lowStockData = {{ low_stock_data|safe }} || [];
 
-const lowStockCtx = document.getElementById("lowStockChart");
-
-new Chart(lowStockCtx, {
+new Chart(document.getElementById("lowStockChart"), {
     type: "bar",
     data: {
         labels: lowStockLabels,
         datasets: [{
             label: "Quantity Remaining",
             data: lowStockData,
-            backgroundColor: "#ef4444"
+            backgroundColor: "rgba(239, 68, 68, 0.85)",
+            borderRadius: 8,
+            barThickness: 40
         }]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: { display: false }
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: "#0f172a",
+                titleColor: "#fff",
+                bodyColor: "#fff",
+                padding: 12
+            }
+        },
+        scales: {
+            x: {
+                grid: { display: false },
+                ticks: { color: "#64748b" }
+            },
+            y: {
+                beginAtZero: true,
+                grid: { color: "rgba(148, 163, 184, 0.15)" },
+                ticks: {
+                    color: "#64748b",
+                    precision: 0
+                }
+            }
         }
     }
 });
