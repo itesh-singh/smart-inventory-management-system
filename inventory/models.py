@@ -13,8 +13,8 @@ class StockItem(models.Model):
 
     def __str__(self):
         return f"{self.product.sku} - {self.quantity_on_hand}"
-    
-    
+
+
 class StockMovement(models.Model):
     IN = "IN"
     OUT = "OUT"
@@ -34,7 +34,7 @@ class StockMovement(models.Model):
 
     def __str__(self):
         return f"{self.movement_type} {self.quantity} for {self.stock_item.product.sku}"
-    
+
     def clean(self):
         if self.pk is None and self.movement_type == self.OUT:
             stock = self.stock_item
@@ -45,7 +45,6 @@ class StockMovement(models.Model):
         creating = self.pk is None
 
         self.full_clean()
-
         super().save(*args, **kwargs)
 
         if creating:
@@ -55,30 +54,30 @@ class StockMovement(models.Model):
                 stock.quantity_on_hand += self.quantity
             elif self.movement_type == self.OUT:
                 stock.quantity_on_hand -= self.quantity
-            else:  # ADJUST
+            else:
                 stock.quantity_on_hand = self.quantity
 
             stock.save()
 
-            # Alert logic
+            # resolve all existing active alerts first
+            Alert.objects.filter(
+                product=stock.product,
+                is_resolved=False
+            ).update(is_resolved=True)
+
+            # create the correct current alert only if needed
             if stock.quantity_on_hand == 0:
-                Alert.objects.get_or_create(
+                Alert.objects.create(
                     alert_type=Alert.OUT_OF_STOCK,
                     product=stock.product,
+                    message=f"{stock.product.name} is out of stock.",
                     is_resolved=False,
-                    defaults={"message": f"{stock.product.name} is out of stock."},
                 )
 
             elif stock.quantity_on_hand <= stock.reorder_level:
-                Alert.objects.get_or_create(
+                Alert.objects.create(
                     alert_type=Alert.LOW_STOCK,
                     product=stock.product,
+                    message=f"{stock.product.name} is running low.",
                     is_resolved=False,
-                    defaults={"message": f"{stock.product.name} is running low."},
                 )
-
-            else:
-                Alert.objects.filter(
-                    product=stock.product,
-                    is_resolved=False
-                ).update(is_resolved=True)
