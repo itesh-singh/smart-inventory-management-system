@@ -50,19 +50,26 @@
     </a>
 </div>
     
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mt-8">
-    <h3 class="text-lg font-semibold text-slate-800 mb-4">Sales (Last 7 Days)</h3>
-    <canvas id="salesChart"></canvas>
-</div>
-<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mt-8">
-    <h3 class="text-lg font-semibold text-slate-800 mb-4">Low Stock Products</h3>
-    <canvas id="lowStockChart"></canvas>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-8">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+        <h3 class="text-lg font-semibold text-slate-800 mb-4">Sales (Last 7 Days)</h3>
+        <div class="h-80">
+            <canvas id="salesChart"></canvas>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+        <h3 class="text-lg font-semibold text-slate-800 mb-4">Low Stock Products</h3>
+        <div class="h-80">
+            <canvas id="lowStockChart"></canvas>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const labels = {{ sales_labels|safe }};
-const data = {{ sales_data|safe }};
+const labels = {{ sales_labels|safe }} || [];
+const data = {{ sales_data|safe }} || [];
 
 const ctx = document.getElementById("salesChart");
 
@@ -81,6 +88,7 @@ new Chart(ctx, {
     },
     options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 display: false
@@ -91,8 +99,8 @@ new Chart(ctx, {
 </script>
 
 <script>
-const lowStockLabels = {{ low_stock_labels|safe }};
-const lowStockData = {{ low_stock_data|safe }};
+const lowStockLabels = {{ low_stock_labels|safe }} || [];
+const lowStockData = {{ low_stock_data|safe }} || [];
 
 const lowStockCtx = document.getElementById("lowStockChart");
 
@@ -108,6 +116,7 @@ new Chart(lowStockCtx, {
     },
     options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: { display: false }
         }
