@@ -6,6 +6,7 @@
 ![DRF](https://img.shields.io/badge/Django_REST_Framework-red?style=for-the-badge&logo=django&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Railway](https://img.shields.io/badge/Deployed_on-Railway-0B0D0E?style=for-the-badge&logo=railway)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
@@ -13,7 +14,9 @@
 
 **A full-stack inventory management system with a Django REST API backend and an interactive Tailwind dashboard — built for small businesses.**
 
-[Features](#-features) • [Tech Stack](#-tech-stack) • [Getting Started](#-getting-started) • [API Docs](#-api-documentation) • [Project Structure](#-project-structure) • [Docker](#-running-with-docker)
+🌐 **Live Demo:** https://smart-inventory-management-system-production.up.railway.app
+
+[Features](#-features) • [Tech Stack](#-tech-stack) • [Architecture](#-architecture) • [Getting Started](#-getting-started) • [API Docs](#-api-documentation) • [Deployment](#-production-deployment)
 
 </div>
 
@@ -73,6 +76,18 @@ Key highlights:
 
 ---
 
+## 🧱 Architecture
+
+```
+Frontend:       Django Templates + Tailwind CSS
+Backend:        Django REST Framework API
+Database:       PostgreSQL
+Authentication: JWT (SimpleJWT)
+Deployment:     Railway + Gunicorn + WhiteNoise
+```
+
+---
+
 ## 📁 Project Structure
 
 ```
@@ -94,9 +109,11 @@ smart-inventory-management-system/
 ├── static/                  # Static files (CSS, JS)
 ├── manage.py
 ├── requirements.txt
+├── Procfile
 ├── Dockerfile
 ├── docker-compose.yml
-└── .env.example
+├── .env.example
+└── .gitignore
 ```
 
 ---
@@ -132,12 +149,17 @@ Create a `.env` file in the root directory:
 ```env
 DJANGO_SECRET_KEY=your-secret-key
 DJANGO_DEBUG=True
+DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost
+
+# Local PostgreSQL
 DB_NAME=inventory_db
 DB_USER=postgres
 DB_PASSWORD=your-password
 DB_HOST=localhost
 DB_PORT=5432
 ```
+
+> **Note:** In production (Railway), `DATABASE_URL` is automatically provided.
 
 ### 5. Run migrations
 ```bash
@@ -182,6 +204,20 @@ docker-compose exec web python manage.py createsuperuser
 ```
 
 The app will be live at **http://localhost:8000**
+
+---
+
+## 🚀 Production Deployment
+
+The application is deployed on **Railway**.
+
+Production stack:
+- Django + Gunicorn
+- PostgreSQL (Railway managed)
+- WhiteNoise for static files
+- Automatic deployments via GitHub
+
+**Live URL:** https://smart-inventory-management-system-production.up.railway.app
 
 ---
 
@@ -249,9 +285,6 @@ http://localhost:8000/admin/
 
 ## 📸 Screenshots
 
-### Login Page
-![Login](screenshots/login.png)
-
 ### Dashboard
 ![Dashboard](screenshots/dashboard.png)
 
@@ -263,6 +296,9 @@ http://localhost:8000/admin/
 
 ### Alerts
 ![Alerts](screenshots/alerts.png)
+
+### Login Page
+![Login](screenshots/login.png)
 
 ### Swagger API Documentation
 ![Swagger 01](screenshots/swagger_01.png)
@@ -286,7 +322,7 @@ http://localhost:8000/admin/
 ## 👨‍💻 Author
 
 **Itesh Singh**
-BCA Final Year — Smart Inventory Management System
+BCA Final Year Project — Smart Inventory Management System
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/itesh-singh)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/itesh-singh-113b55323)
