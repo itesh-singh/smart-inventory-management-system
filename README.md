@@ -5,7 +5,6 @@
 ![Django](https://img.shields.io/badge/Django-6.0.3-092E20?style=for-the-badge&logo=django&logoColor=white)
 ![DRF](https://img.shields.io/badge/Django_REST_Framework-red?style=for-the-badge&logo=django&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Railway](https://img.shields.io/badge/Deployed_on-Railway-0B0D0E?style=for-the-badge&logo=railway)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
@@ -16,7 +15,7 @@
 
 🌐 **Live Demo:** https://smart-inventory-management-system-production.up.railway.app
 
-[Features](#-features) • [Tech Stack](#-tech-stack) • [Architecture](#-architecture) • [Getting Started](#-getting-started) • [API Docs](#-api-documentation) • [Deployment](#-production-deployment)
+[Features](#-features) • [Tech Stack](#-tech-stack) • [Architecture](#-architecture) • [Getting Started](#-getting-started) • [API Docs](#-api-documentation) • [Deployment](#-deployment)
 
 </div>
 
@@ -35,7 +34,7 @@ Key highlights:
 - 📊 **Interactive dashboard** — sales analytics and low-stock charts with Chart.js
 - 🖥️ **Web UI** — Tailwind CSS dashboard for managing inventory
 - 📄 **Swagger API docs** — auto-generated interactive documentation
-- 🐳 **Fully Dockerized** — runs with a single command
+- 🚀 **Deployed on Railway** — with Gunicorn, WhiteNoise, and PostgreSQL
 
 ---
 
@@ -56,7 +55,7 @@ Key highlights:
 | 🖥️ Web Dashboard | Tailwind CSS UI for managing inventory in the browser |
 | 🔐 JWT Auth | Secure token-based authentication with refresh tokens |
 | 📄 Swagger Docs | Interactive API documentation at `/api/docs/` |
-| 🐳 Docker Deployment | Full Docker Compose setup with all services |
+| 🐳 Local Docker | Docker Compose setup for local development |
 
 ---
 
@@ -70,9 +69,9 @@ Key highlights:
 | **Database** | PostgreSQL |
 | **Authentication** | JWT via SimpleJWT 5.5.1 |
 | **API Documentation** | Swagger (drf-yasg 1.21.15) |
-| **Containerization** | Docker + Docker Compose |
 | **Production Server** | Gunicorn |
 | **Static Files** | WhiteNoise |
+| **Deployment** | Railway |
 
 ---
 
@@ -80,7 +79,7 @@ Key highlights:
 
 ```
 Frontend:       Django Templates + Tailwind CSS
-Backend:        Django REST Framework API
+Backend:        Django + Django REST Framework
 Database:       PostgreSQL
 Authentication: JWT (SimpleJWT)
 Deployment:     Railway + Gunicorn + WhiteNoise
@@ -110,7 +109,6 @@ smart-inventory-management-system/
 ├── manage.py
 ├── requirements.txt
 ├── Procfile
-├── Dockerfile
 ├── docker-compose.yml
 ├── .env.example
 └── .gitignore
@@ -159,7 +157,7 @@ DB_HOST=localhost
 DB_PORT=5432
 ```
 
-> **Note:** In production (Railway), `DATABASE_URL` is automatically provided.
+> **Note:** In production, Railway provides `DATABASE_URL` automatically.
 
 ### 5. Run migrations
 ```bash
@@ -181,24 +179,15 @@ Open: **http://localhost:8000**
 
 ---
 
-## 🐳 Running with Docker
+## 🐳 Running with Docker (Local)
 
-> Runs the entire system (Django + PostgreSQL) with **one command.**
+> Runs the entire system (Django + PostgreSQL) locally with **one command.**
 
-### 1. Clone and configure
 ```bash
 git clone https://github.com/itesh-singh/smart-inventory-management-system.git
 cd smart-inventory-management-system
-cp .env.example .env   # then edit .env with your values
-```
-
-### 2. Build and start all containers
-```bash
+cp .env.example .env
 docker-compose up --build
-```
-
-### 3. Run migrations inside container
-```bash
 docker-compose exec web python manage.py migrate
 docker-compose exec web python manage.py createsuperuser
 ```
@@ -207,15 +196,15 @@ The app will be live at **http://localhost:8000**
 
 ---
 
-## 🚀 Production Deployment
+## 🚀 Deployment
 
-The application is deployed on **Railway**.
+Deployed on **Railway** with:
 
-Production stack:
-- Django + Gunicorn
-- PostgreSQL (Railway managed)
-- WhiteNoise for static files
-- Automatic deployments via GitHub
+- **Gunicorn** — production WSGI server
+- **PostgreSQL** — Railway managed database
+- **WhiteNoise** — static file serving in production
+- **Automatic deployments** — triggered on every GitHub push
+- **Environment-based config** — `DATABASE_URL` auto-provided by Railway
 
 **Live URL:** https://smart-inventory-management-system-production.up.railway.app
 
@@ -303,9 +292,6 @@ http://localhost:8000/admin/
 ### Swagger API Documentation
 ![Swagger 01](screenshots/swagger_01.png)
 ![Swagger 02](screenshots/swagger_02.png)
-
-### Docker Containers Running
-![Docker](screenshots/docker.png)
 
 ---
 
