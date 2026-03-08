@@ -11,71 +11,77 @@
 
 <body class="bg-slate-100 text-slate-900 min-h-screen">
 
-<nav class="bg-slate-950 text-white border-b border-slate-800 shadow-sm">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+<nav class="sticky top-0 z-50 bg-slate-950/95 backdrop-blur border-b border-slate-800 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-6">
 
-        <!-- Logo -->
-        <a href="/" class="text-2xl font-bold tracking-tight hover:text-slate-300 transition">
-            Smart Inventory
+        <a href="{% url 'dashboard' %}" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold shadow-md">
+                SI
+            </div>
+            <div>
+                <p class="text-lg font-bold tracking-tight text-white group-hover:text-slate-200 transition">
+                    Smart Inventory
+                </p>
+                <p class="text-xs text-slate-400 hidden sm:block">
+                    Inventory Management Dashboard
+                </p>
+            </div>
         </a>
 
-        <div class="flex items-center space-x-4 text-sm">
+        {% if user.is_authenticated %}
+        <div class="flex items-center gap-6">
 
-            {% if user.is_authenticated %}
-
-            <!-- Navigation -->
-            <div class="flex items-center space-x-2">
+            <div class="hidden md:flex items-center gap-2 rounded-xl bg-slate-900/80 p-1 border border-slate-800">
 
                 <a href="{% url 'dashboard' %}"
-                   class="px-3 py-2 rounded-md transition {% if request.path == '/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                   class="px-4 py-2 rounded-lg text-sm font-medium transition {% if request.path == '/' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
                     Dashboard
                 </a>
 
-                <a href="{% url 'products_page' %}   "
-                   class="px-3 py-2 rounded-md transition {% if request.path == '/products-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                <a href="{% url 'products_page' %}"
+                   class="px-4 py-2 rounded-lg text-sm font-medium transition {% if request.path == '/products-page/' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
                     Products
                 </a>
 
                 <a href="{% url 'inventory_page' %}"
-                   class="px-3 py-2 rounded-md transition {% if request.path == '/inventory-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                   class="px-4 py-2 rounded-lg text-sm font-medium transition {% if request.path == '/inventory-page/' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
                     Inventory
                 </a>
 
                 <a href="{% url 'alerts_page' %}"
-                   class="px-3 py-2 rounded-md transition {% if request.path == '/alerts-page/' %}bg-white text-slate-900 font-semibold{% else %}text-white hover:bg-slate-800{% endif %}">
+                   class="px-4 py-2 rounded-lg text-sm font-medium transition {% if request.path == '/alerts-page/' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
                     Alerts
                 </a>
 
             </div>
 
-            <!-- User section -->
-            <div class="flex items-center space-x-3 ml-4 border-l border-slate-700 pl-4">
-
-                <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-semibold uppercase">
+            <div class="flex items-center gap-3 pl-4 border-l border-slate-800">
+                <div class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-xs font-semibold uppercase text-white">
                     {{ request.user.username|slice:":1" }}
                 </div>
 
-                <span class="text-slate-300 font-medium">
-                    {{ request.user.username|title }}
-                </span>
+                <div class="hidden sm:block">
+                    <p class="text-sm font-medium text-white leading-none">
+                        {{ request.user.username|title }}
+                    </p>
+                    <p class="text-xs text-slate-400 mt-1">
+                        Signed in
+                    </p>
+                </div>
 
                 <a href="{% url 'logout' %}"
-                   class="px-3 py-1.5 rounded-md bg-red-600 hover:bg-red-700 text-white transition text-sm">
+                   class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition shadow-sm">
                     Logout
                 </a>
-
             </div>
 
-            {% else %}
-
-            <a href="{% url 'login' %}"
-               class="px-4 py-2 rounded-md bg-white text-slate-900 font-semibold hover:bg-slate-200 transition">
-                Login
-            </a>
-
-            {% endif %}
-
         </div>
+        {% else %}
+        <a href="{% url 'login' %}"
+           class="px-4 py-2 rounded-lg bg-white text-slate-900 font-semibold hover:bg-slate-200 transition shadow-sm">
+            Login
+        </a>
+        {% endif %}
     </div>
 </nav>
 
