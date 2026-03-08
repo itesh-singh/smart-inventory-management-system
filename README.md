@@ -272,26 +272,43 @@ http://localhost:8000/admin/
 
 ---
 
-## 📸 Screenshots
-
-### Dashboard
-![Dashboard](screenshots/dashboard.png)
-
-### Products
-![Products](screenshots/products.png)
-
-### Inventory
-![Inventory](screenshots/inventory.png)
-
-### Alerts
-![Alerts](screenshots/alerts.png)
+## 📸 Application Screenshots
 
 ### Login Page
+
 ![Login](screenshots/login.png)
 
+---
+
+### Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+### Products
+
+![Products](screenshots/products.png)
+
+---
+
+### Inventory
+
+![Inventory](screenshots/inventory.png)
+
+---
+
+### Alerts
+
+![Alerts](screenshots/alerts.png)
+
+---
+
 ### Swagger API Documentation
-![Swagger 01](screenshots/swagger_01.png)
-![Swagger 02](screenshots/swagger_02.png)
+
+| API Overview | Endpoint Details |
+|--------------|-----------------|
+| ![Swagger 01](screenshots/swagger_01.png) | ![Swagger 02](screenshots/swagger_02.png) |
 
 ---
 
