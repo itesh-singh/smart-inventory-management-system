@@ -1,6 +1,6 @@
-# 📦 Smart Inventory Management System
-
 <div align="center">
+
+# 📦 Smart Inventory Management System
 
 ![Django](https://img.shields.io/badge/Django-6.0.3-092E20?style=for-the-badge&logo=django&logoColor=white)
 ![DRF](https://img.shields.io/badge/Django_REST_Framework-red?style=for-the-badge&logo=django&logoColor=white)
@@ -23,7 +23,7 @@
 
 ## 🚀 About The Project
 
-The **Smart Inventory Management System** is a full-stack web application built as a BCA Final Year Project. It helps small businesses manage products, track inventory, handle purchase orders and sales, and visualize stock data through an interactive dashboard.
+The **Smart Inventory Management System** is a full-stack web application that helps small businesses manage products, track inventory, handle purchase orders and sales, and visualize stock data through an interactive dashboard.
 
 Key highlights:
 
@@ -76,7 +76,6 @@ Key highlights:
 ---
 
 ## 🧱 Architecture
-
 ```
 Frontend:       Django Templates + Tailwind CSS
 Backend:        Django + Django REST Framework
@@ -88,7 +87,6 @@ Deployment:     Railway + Gunicorn + WhiteNoise
 ---
 
 ## 📁 Project Structure
-
 ```
 smart-inventory-management-system/
 │
@@ -182,7 +180,6 @@ Open: **http://localhost:8000**
 ## 🐳 Running with Docker (Local)
 
 > Runs the entire system (Django + PostgreSQL) locally with **one command.**
-
 ```bash
 git clone https://github.com/itesh-singh/smart-inventory-management-system.git
 cd smart-inventory-management-system
@@ -325,7 +322,6 @@ http://localhost:8000/admin/
 ## 👨‍💻 Author
 
 **Itesh Singh**
-BCA Final Year Project — Smart Inventory Management System
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/itesh-singh)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/itesh-singh-113b55323)
