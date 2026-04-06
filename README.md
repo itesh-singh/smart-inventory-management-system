@@ -309,16 +309,6 @@ http://localhost:8000/admin/
 
 ---
 
-## 🔮 Future Improvements
-
-- [ ] Email notifications for low-stock alerts
-- [ ] AI-based demand forecasting
-- [ ] Barcode / QR code product scanning
-- [ ] Multi-warehouse inventory support
-- [ ] Role-based access control (Admin / Staff)
-
----
-
 ## 👨‍💻 Author
 
 **Itesh Singh**
